@@ -17,6 +17,3 @@ Thumbs.db
 
 # Logs
 *.log
-
-# Local environment
-.env.local
