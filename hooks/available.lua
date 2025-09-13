@@ -13,8 +13,7 @@ function PLUGIN:Available(ctx)
     -- Example 2: GitHub Releases API (for tools that use GitHub releases)
     -- local repo_url = "https://api.github.com/repos/<GITHUB_USER>/<GITHUB_REPO>/releases"
 
-    -- mise automatically adds GitHub token authentication for GitHub API requests
-    -- No need to manually handle GITHUB_TOKEN/MISE_GITHUB_TOKEN
+    -- mise automatically handles GitHub authentication - no manual token setup needed
     local resp, err = http.get({
         url = repo_url,
     })
