@@ -1,10 +1,20 @@
+-- hooks/available.lua
+-- Returns a list of available versions for the tool
+-- Documentation: https://mise.jdx.dev/tool-plugin-development.html#available-hook
+
 function PLUGIN:Available(ctx)
     local http = require("http")
     local json = require("json")
 
-    -- Replace with your tool's GitHub repository API for tags/releases
-    local repo_url = "https://api.github.com/repos/<USER>/<TOOL>/tags"
+    -- Example 1: GitHub Tags API (most common)
+    -- Replace <GITHUB_USER>/<GITHUB_REPO> with your tool's repository
+    local repo_url = "https://api.github.com/repos/<GITHUB_USER>/<GITHUB_REPO>/tags"
 
+    -- Example 2: GitHub Releases API (for tools that use GitHub releases)
+    -- local repo_url = "https://api.github.com/repos/<GITHUB_USER>/<GITHUB_REPO>/releases"
+
+    -- mise automatically adds GitHub token authentication for GitHub API requests
+    -- No need to manually handle GITHUB_TOKEN/MISE_GITHUB_TOKEN
     local resp, err = http.get({
         url = repo_url,
     })
@@ -18,9 +28,25 @@ function PLUGIN:Available(ctx)
 
     local tags = json.decode(resp.body)
     local result = {}
+
+    -- Process tags/releases
     for _, tag_info in ipairs(tags) do
         local version = tag_info.name
-        table.insert(result, { version = version, note = nil })
+
+        -- Clean up version string (remove 'v' prefix if present)
+        -- version = version:gsub("^v", "")
+
+        -- For releases API, you might want:
+        -- local version = tag_info.tag_name:gsub("^v", "")
+        -- local is_prerelease = tag_info.prerelease or false
+        -- local note = is_prerelease and "pre-release" or nil
+
+        table.insert(result, {
+            version = version,
+            note = nil, -- Optional: "latest", "lts", "pre-release", etc.
+            -- addition = {} -- Optional: additional tools/components
+        })
     end
+
     return result
 end
