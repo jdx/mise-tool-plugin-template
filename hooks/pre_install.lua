@@ -7,17 +7,17 @@ function PLUGIN:PreInstall(ctx)
     -- ctx.runtimeVersion contains the full version string if needed
 
     -- Example 1: Simple binary download
-    -- local url = "https://github.com/<USER>/<TOOL>/releases/download/v" .. version .. "/<TOOL>-linux-amd64"
+    -- local url = "https://github.com/<GITHUB_USER>/<GITHUB_REPO>/releases/download/v" .. version .. "/<TOOL>-linux-amd64"
 
     -- Example 2: Platform-specific binary
-    -- local platform = get_platform() -- You'll need to implement this
-    -- local url = "https://github.com/<USER>/<TOOL>/releases/download/v" .. version .. "/<TOOL>-" .. platform
+    -- local platform = get_platform() -- Uncomment the helper function above
+    -- local url = "https://github.com/<GITHUB_USER>/<GITHUB_REPO>/releases/download/v" .. version .. "/<TOOL>-" .. platform
 
     -- Example 3: Archive (tar.gz, zip) - mise will extract automatically
-    -- local url = "https://github.com/<USER>/<TOOL>/releases/download/v" .. version .. "/<TOOL>-" .. version .. "-linux-amd64.tar.gz"
+    -- local url = "https://github.com/<GITHUB_USER>/<GITHUB_REPO>/releases/download/v" .. version .. "/<TOOL>-" .. version .. "-linux-amd64.tar.gz"
 
     -- Example 4: Raw file from repository
-    -- local url = "https://raw.githubusercontent.com/<USER>/<TOOL>/" .. version .. "/bin/<TOOL>"
+    -- local url = "https://raw.githubusercontent.com/<GITHUB_USER>/<GITHUB_REPO>/" .. version .. "/bin/<TOOL>"
 
     -- Replace with your actual download URL pattern
     local url = "https://example.com/<TOOL>/releases/download/" .. version .. "/<TOOL>"
@@ -42,36 +42,37 @@ end
 -- Helper function for platform detection (uncomment and modify as needed)
 --[[
 local function get_platform()
-    local os_name = os.getenv("OS")
-    if not os_name then
-        local handle = io.popen("uname -s")
-        os_name = handle:read("*a"):gsub("%s+", "")
-        handle:close()
-    end
+    -- RUNTIME object is provided by mise/vfox
+    -- RUNTIME.osType: "Windows", "Linux", "Darwin"
+    -- RUNTIME.archType: "amd64", "386", "arm64", etc.
 
-    local arch = os.getenv("PROCESSOR_ARCHITECTURE")
-    if not arch then
-        local handle = io.popen("uname -m")
-        arch = handle:read("*a"):gsub("%s+", "")
-        handle:close()
-    end
+    local os_name = RUNTIME.osType:lower()
+    local arch = RUNTIME.archType
 
     -- Map to your tool's platform naming convention
+    -- Adjust these mappings based on how your tool names its releases
     local platform_map = {
-        ["Darwin"] = {
-            ["x86_64"] = "darwin-amd64",
+        ["darwin"] = {
+            ["amd64"] = "darwin-amd64",
             ["arm64"] = "darwin-arm64",
         },
-        ["Linux"] = {
-            ["x86_64"] = "linux-amd64",
-            ["aarch64"] = "linux-arm64",
+        ["linux"] = {
+            ["amd64"] = "linux-amd64",
+            ["arm64"] = "linux-arm64",
+            ["386"] = "linux-386",
         },
-        ["Windows_NT"] = {
-            ["AMD64"] = "windows-amd64",
+        ["windows"] = {
+            ["amd64"] = "windows-amd64",
+            ["386"] = "windows-386",
         }
     }
 
-    local os_map = platform_map[os_name] or platform_map["Linux"]
-    return os_map[arch] or "linux-amd64"
+    local os_map = platform_map[os_name]
+    if os_map then
+        return os_map[arch] or "linux-amd64"  -- fallback
+    end
+
+    -- Default fallback
+    return "linux-amd64"
 end
 --]]

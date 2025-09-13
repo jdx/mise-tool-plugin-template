@@ -18,8 +18,5 @@ Thumbs.db
 # Logs
 *.log
 
-# Mise cache
-.mise/
-
 # Local environment
 .env.local

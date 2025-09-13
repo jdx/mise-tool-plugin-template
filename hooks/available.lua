@@ -7,23 +7,16 @@ function PLUGIN:Available(ctx)
     local json = require("json")
 
     -- Example 1: GitHub Tags API (most common)
-    -- Replace <USER>/<TOOL> with your tool's repository
-    local repo_url = "https://api.github.com/repos/<USER>/<TOOL>/tags"
+    -- Replace <GITHUB_USER>/<GITHUB_REPO> with your tool's repository
+    local repo_url = "https://api.github.com/repos/<GITHUB_USER>/<GITHUB_REPO>/tags"
 
     -- Example 2: GitHub Releases API (for tools that use GitHub releases)
-    -- local repo_url = "https://api.github.com/repos/<USER>/<TOOL>/releases"
+    -- local repo_url = "https://api.github.com/repos/<GITHUB_USER>/<GITHUB_REPO>/releases"
 
-    -- Add GitHub token if available (helps with rate limits)
-    local headers = {}
-    if os.getenv("GITHUB_TOKEN") then
-        headers["Authorization"] = "token " .. os.getenv("GITHUB_TOKEN")
-    elseif os.getenv("GITHUB_API_TOKEN") then
-        headers["Authorization"] = "token " .. os.getenv("GITHUB_API_TOKEN")
-    end
-
+    -- mise automatically adds GitHub token authentication for GitHub API requests
+    -- No need to manually handle GITHUB_TOKEN/MISE_GITHUB_TOKEN
     local resp, err = http.get({
         url = repo_url,
-        headers = headers,
     })
 
     if err ~= nil then

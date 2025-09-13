@@ -63,9 +63,13 @@ function PLUGIN:PostInstall(ctx)
 
     -- Example 5: Platform-specific setup
     --[[
-    local is_windows = package.config:sub(1,1) == '\\'
-    if not is_windows then
+    -- RUNTIME object is provided by mise/vfox
+    if RUNTIME.osType ~= "Windows" then
+        -- Unix-like systems: make binaries executable
         os.execute("chmod +x " .. path .. "/bin/*")
+    else
+        -- Windows-specific setup if needed
+        -- e.g., adding .exe extension or handling batch files
     end
     --]]
 end

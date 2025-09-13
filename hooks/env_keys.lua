@@ -67,13 +67,19 @@ function PLUGIN:EnvKeys(ctx)
         },
     }
 
-    local is_macos = io.popen("uname"):read():match("Darwin")
-    if is_macos then
+    -- RUNTIME object is provided by mise/vfox
+    if RUNTIME.osType == "Darwin" then
         table.insert(env_vars, {
             key = "DYLD_LIBRARY_PATH",
             value = mainPath .. "/lib",
         })
+    elseif RUNTIME.osType == "Linux" then
+        table.insert(env_vars, {
+            key = "LD_LIBRARY_PATH",
+            value = mainPath .. "/lib",
+        })
     end
+    -- Windows doesn't use these library path variables
 
     return env_vars
     --]]

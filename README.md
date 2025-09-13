@@ -25,7 +25,7 @@ git init
 Search and replace these placeholders throughout the project:
 - `<TOOL>` → your tool name (e.g., `semver`)
 - `<GITHUB_USER>` → your GitHub username or organization
-- `<TOOL_REPO>` → the upstream tool's repository (for fetching releases)
+- `<GITHUB_REPO>` → the upstream tool's GitHub repository name
 
 Files to update:
 - `metadata.lua` - Update name, description, author, updateUrl
@@ -158,17 +158,34 @@ MISE_DEBUG=1 mise install <TOOL>@latest
 ### Platform Detection
 ```lua
 local function get_platform()
-    local os_name = os.getenv("OS") or io.popen("uname"):read()
-    local arch = os.getenv("PROCESSOR_ARCHITECTURE") or io.popen("uname -m"):read()
+    -- RUNTIME object is provided by mise/vfox
+    -- RUNTIME.osType: "Windows", "Linux", "Darwin"
+    -- RUNTIME.archType: "amd64", "386", "arm64", etc.
 
-    -- Map to common platform strings
-    if os_name:match("Windows") then
-        return "windows-amd64"
-    elseif os_name:match("Darwin") then
-        return arch:match("arm64") and "darwin-arm64" or "darwin-amd64"
-    else
-        return arch:match("aarch64") and "linux-arm64" or "linux-amd64"
+    local os_name = RUNTIME.osType:lower()
+    local arch = RUNTIME.archType
+
+    -- Map to your tool's platform naming convention
+    local platform_map = {
+        ["darwin"] = {
+            ["amd64"] = "darwin-amd64",
+            ["arm64"] = "darwin-arm64",
+        },
+        ["linux"] = {
+            ["amd64"] = "linux-amd64",
+            ["arm64"] = "linux-arm64",
+        },
+        ["windows"] = {
+            ["amd64"] = "windows-amd64",
+            ["386"] = "windows-386",
+        }
+    }
+
+    local os_map = platform_map[os_name]
+    if os_map then
+        return os_map[arch] or "linux-amd64"
     end
+    return "linux-amd64"  -- fallback
 end
 ```
 
