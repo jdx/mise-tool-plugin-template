@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+#MISE description="Lint and format check Lua scripts with luacheck and StyLua"
+set -euo pipefail
+
+luarocks install luacheck --local || true
+~/.luarocks/bin/luacheck metadata.lua hooks/
+stylua --check metadata.lua hooks/

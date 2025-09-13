@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+#MISE description="Run plugin tests - install and execute tool"
+set -euo pipefail
+
+mise plugin link --force <TOOL> .
+mise cache clear
+mise install <TOOL>@1.0.0
+
+# Capture and display the output while also verifying it
+output=$(mise exec "<TOOL>@1.0.0" -- "<TOOL>" --version)
+echo "<TOOL> output: $output"
+
+if echo "$output" | grep -q '<TOOL>@1.0.0'; then
+    echo "✓ Tests passed"
+else
+    echo "✗ Test failed: expected version <TOOL>@1.0.0"
+    exit 1
+fi
