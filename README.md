@@ -111,6 +111,15 @@ return {
 
 ## Development Workflow
 
+### Setting up development environment
+
+1. Install pre-commit hooks (optional but recommended):
+```bash
+hk install
+```
+
+This sets up automatic linting and formatting on git commits.
+
 ### Local Testing
 
 1. Link your plugin for development:
@@ -133,6 +142,21 @@ mise run lint
 mise run ci
 ```
 
+### Code Quality
+
+This template uses [hk](https://hk.jdx.dev) for modern linting and pre-commit hooks:
+
+- **Automatic formatting**: `stylua` formats Lua code
+- **Static analysis**: `luacheck` catches Lua issues
+- **GitHub Actions linting**: `actionlint` validates workflows
+- **Pre-commit hooks**: Runs all checks automatically on git commit
+
+Manual commands:
+```bash
+hk check      # Run all linters (same as mise run lint)
+hk fix        # Run linters and auto-fix issues
+```
+
 ### Debugging
 
 Enable debug output:
@@ -149,7 +173,8 @@ MISE_DEBUG=1 mise install <TOOL>@latest
 - `hooks/env_keys.lua` – Environment variables to export (PATH, etc.)
 - `.github/workflows/ci.yml` – GitHub Actions CI/CD pipeline
 - `mise.toml` – Development tools and configuration
-- `mise-tasks/` – Task scripts for testing and linting
+- `mise-tasks/` – Task scripts for testing
+- `hk.pkl` – Modern linting and pre-commit hook configuration
 - `.luacheckrc` – Lua linting configuration
 - `stylua.toml` – Lua formatting configuration
 
