@@ -1,13 +1,7 @@
--- hooks/post_install.lua
--- Performs additional setup after installation
--- Documentation: https://mise.jdx.dev/tool-plugin-development.html#postinstall-hook
-
+--- Performs additional setup after installation
+--- Documentation: https://mise.jdx.dev/tool-plugin-development.html#postinstall-hook
+--- @param ctx {rootPath: string, runtimeVersion: string, sdkInfo: table} Context
 function PLUGIN:PostInstall(ctx)
-    -- Available context:
-    -- ctx.rootPath - Root installation path
-    -- ctx.runtimeVersion - Full version string
-    -- ctx.sdkInfo[PLUGIN.name] - SDK information
-
     local sdkInfo = ctx.sdkInfo[PLUGIN.name]
     local path = sdkInfo.path
     -- local version = sdkInfo.version

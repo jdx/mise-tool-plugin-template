@@ -1,7 +1,7 @@
--- hooks/pre_install.lua
--- Returns download information for a specific version
--- Documentation: https://mise.jdx.dev/tool-plugin-development.html#preinstall-hook
-
+--- Returns download information for a specific version
+--- Documentation: https://mise.jdx.dev/tool-plugin-development.html#preinstall-hook
+--- @param ctx {version: string, runtimeVersion: string} Context
+--- @return table Version and download information
 function PLUGIN:PreInstall(ctx)
     local version = ctx.version
     -- ctx.runtimeVersion contains the full version string if needed
@@ -10,7 +10,7 @@ function PLUGIN:PreInstall(ctx)
     -- local url = "https://github.com/<GITHUB_USER>/<GITHUB_REPO>/releases/download/v" .. version .. "/<TOOL>-linux-amd64"
 
     -- Example 2: Platform-specific binary
-    -- local platform = get_platform() -- Uncomment the helper function above
+    -- local platform = get_platform() -- Uncomment the helper function below
     -- local url = "https://github.com/<GITHUB_USER>/<GITHUB_REPO>/releases/download/v" .. version .. "/<TOOL>-" .. platform
 
     -- Example 3: Archive (tar.gz, zip) - mise will extract automatically
