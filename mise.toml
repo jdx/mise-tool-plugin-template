@@ -5,6 +5,7 @@ MISE_USE_VERSIONS_HOST = "0"
 actionlint = "latest"
 hk = "latest"
 lua = "5.4"
+lua-language-server = "latest"
 pkl = "latest"
 stylua = "latest"
 
@@ -15,6 +16,10 @@ run = "stylua metadata.lua hooks/"
 [tasks.lint]
 description = "Lint Lua scripts and GitHub Actions using hk"
 run = "hk check"
+
+[tasks.lint-fix]
+description = "Fix linting issues"
+run = "hk fix"
 
 [tasks.ci]
 description = "Run all CI checks"

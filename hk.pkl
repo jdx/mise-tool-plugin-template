@@ -1,10 +1,10 @@
-amends "package://github.com/jdx/hk/releases/download/v1.2.0/hk@1.2.0#/Config.pkl"
-import "package://github.com/jdx/hk/releases/download/v1.2.0/hk@1.2.0#/Builtins.pkl"
+amends "package://github.com/jdx/hk/releases/download/v1.18.1/hk@1.18.1#/Config.pkl"
+import "package://github.com/jdx/hk/releases/download/v1.18.1/hk@1.18.1#/Builtins.pkl"
 
 local linters = new Mapping<String, Step> {
-    ["luacheck"] {
+    ["lua-check"] {
         glob = "**/*.lua"
-        check = "luarocks install luacheck --local || true && ~/.luarocks/bin/luacheck {{files}}"
+        check = "lua-language-server --check ."
     }
     ["stylua"] {
         glob = "**/*.lua"
