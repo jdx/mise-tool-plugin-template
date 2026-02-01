@@ -1,0 +1,7 @@
+{
+    "languageMode": "nonstrict",
+    "globals": ["PLUGIN", "RUNTIME"],
+    "lint": {
+        "BuiltinGlobalWrite": false
+    }
+}
