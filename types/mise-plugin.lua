@@ -6,20 +6,20 @@
 -- Globals
 ------------------------------------------------------------------------
 
---- Current operating system type (e.g. "linux", "darwin", "windows")
----@type string
-OS_TYPE = ""
-
---- Current architecture type (e.g. "amd64", "arm64")
----@type string
-ARCH_TYPE = ""
-
 ---@class Runtime
 ---@field osType string Operating system type (e.g. "linux", "darwin", "windows")
 ---@field archType string Architecture type (e.g. "amd64", "arm64")
 ---@field version string Runtime version
 ---@field pluginDirPath string Path to the plugin directory
 RUNTIME = {}
+
+--- @deprecated Use RUNTIME.osType instead
+---@type string
+OS_TYPE = ""
+
+--- @deprecated Use RUNTIME.archType instead
+---@type string
+ARCH_TYPE = ""
 
 ------------------------------------------------------------------------
 -- PLUGIN table & hook method signatures
