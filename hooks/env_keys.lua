@@ -2,8 +2,8 @@
 --- Documentation: https://mise.jdx.dev/tool-plugin-development.html#envkeys-hook
 --- @param ctx {path: string, runtimeVersion: string, sdkInfo: table} Context
 --- @return table[] List of environment variable definitions
-function PLUGIN:EnvKeys(ctx): { { key: string, value: string } }
-    local mainPath: string = ctx.path
+function PLUGIN:EnvKeys(ctx)
+    local mainPath = ctx.path
     -- local sdkInfo = ctx.sdkInfo[PLUGIN.name]
     -- local version = sdkInfo.version
 
@@ -12,7 +12,7 @@ function PLUGIN:EnvKeys(ctx): { { key: string, value: string } }
     return {
         {
             key = "PATH",
-            value = `{mainPath}/bin`,
+            value = mainPath .. "/bin",
         },
     }
 
@@ -25,12 +25,12 @@ function PLUGIN:EnvKeys(ctx): { { key: string, value: string } }
         },
         {
             key = "PATH",
-            value = `{mainPath}/bin`,
+            value = mainPath .. "/bin",
         },
         -- Multiple PATH entries are automatically merged
         {
             key = "PATH",
-            value = `{mainPath}/scripts`,
+            value = mainPath .. "/scripts",
         },
     }
     --]]
@@ -40,15 +40,15 @@ function PLUGIN:EnvKeys(ctx): { { key: string, value: string } }
     return {
         {
             key = "PATH",
-            value = `{mainPath}/bin`,
+            value = mainPath .. "/bin",
         },
         {
             key = "LD_LIBRARY_PATH",
-            value = `{mainPath}/lib`,
+            value = mainPath .. "/lib",
         },
         {
             key = "PKG_CONFIG_PATH",
-            value = `{mainPath}/lib/pkgconfig`,
+            value = mainPath .. "/lib/pkgconfig",
         },
     }
     --]]
@@ -58,7 +58,7 @@ function PLUGIN:EnvKeys(ctx): { { key: string, value: string } }
     local env_vars = {
         {
             key = "PATH",
-            value = `{mainPath}/bin`,
+            value = mainPath .. "/bin",
         },
     }
 
@@ -66,12 +66,12 @@ function PLUGIN:EnvKeys(ctx): { { key: string, value: string } }
     if RUNTIME.osType == "Darwin" then
         table.insert(env_vars, {
             key = "DYLD_LIBRARY_PATH",
-            value = `{mainPath}/lib`,
+            value = mainPath .. "/lib",
         })
     elseif RUNTIME.osType == "Linux" then
         table.insert(env_vars, {
             key = "LD_LIBRARY_PATH",
-            value = `{mainPath}/lib`,
+            value = mainPath .. "/lib",
         })
     end
     -- Windows doesn't use these library path variables

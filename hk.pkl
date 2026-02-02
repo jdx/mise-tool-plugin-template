@@ -2,12 +2,12 @@ amends "package://github.com/jdx/hk/releases/download/v1.18.1/hk@1.18.1#/Config.
 import "package://github.com/jdx/hk/releases/download/v1.18.1/hk@1.18.1#/Builtins.pkl"
 
 local linters = new Mapping<String, Step> {
-    ["luau-analyze"] {
-        glob = "**/*.luau"
-        check = "luau-analyze ."
+    ["lua-check"] {
+        glob = "**/*.lua"
+        check = "lua-language-server --check ."
     }
     ["stylua"] {
-        glob = "**/*.luau"
+        glob = "**/*.lua"
         check = "stylua --check {{files}}"
         fix = "stylua {{files}}"
     }

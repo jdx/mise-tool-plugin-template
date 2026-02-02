@@ -2,7 +2,7 @@
 --- Documentation: https://mise.jdx.dev/tool-plugin-development.html#available-hook
 --- @param ctx {args: string[]} Context (args = user arguments)
 --- @return table[] List of available versions
-function PLUGIN:Available(ctx): { { version: string, note: string? } }
+function PLUGIN:Available(ctx)
     local http = require("http")
     local json = require("json")
 
@@ -19,18 +19,18 @@ function PLUGIN:Available(ctx): { { version: string, note: string? } }
     })
 
     if err ~= nil then
-        error(`Failed to fetch versions: {err}`)
+        error("Failed to fetch versions: " .. err)
     end
     if resp.status_code ~= 200 then
-        error(`GitHub API returned status {resp.status_code}: {resp.body}`)
+        error("GitHub API returned status " .. resp.status_code .. ": " .. resp.body)
     end
 
     local tags = json.decode(resp.body)
     local result = {}
 
     -- Process tags/releases
-    for _, tag_info in tags do
-        local version: string = tag_info.name
+    for _, tag_info in ipairs(tags) do
+        local version = tag_info.name
 
         -- Clean up version string (remove 'v' prefix if present)
         -- version = version:gsub("^v", "")
@@ -38,7 +38,7 @@ function PLUGIN:Available(ctx): { { version: string, note: string? } }
         -- For releases API, you might want:
         -- local version = tag_info.tag_name:gsub("^v", "")
         -- local is_prerelease = tag_info.prerelease or false
-        -- local note = if is_prerelease then "pre-release" else nil
+        -- local note = is_prerelease and "pre-release" or nil
 
         table.insert(result, {
             version = version,
