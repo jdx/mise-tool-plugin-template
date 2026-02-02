@@ -10,8 +10,8 @@ stylua = "latest"
 
 [tasks.lint]
 description = "Lint and type-check Luau scripts"
-run = "hk check --all"
+run = "hk check"
 
 [tasks.lint-fix]
 description = "Fix linting issues"
-run = "hk fix --all"
+run = "hk fix"

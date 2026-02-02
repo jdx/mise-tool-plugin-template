@@ -6,40 +6,40 @@ local plugin = PLUGIN :: Types.PluginType
 --- Returns download information for a specific version
 --- Documentation: https://mise.jdx.dev/dev-tools/backends/vfox.html
 function plugin:PreInstall(ctx: { version: string, runtimeVersion: string }): Types.PreInstallResult
-    local version: string = ctx.version
-    -- ctx.runtimeVersion contains the full version string if needed
+	local version: string = ctx.version
+	-- ctx.runtimeVersion contains the full version string if needed
 
-    -- Example 1: Simple binary download
-    -- local url = `https://github.com/<GITHUB_USER>/<GITHUB_REPO>/releases/download/v{version}/<TOOL>-linux-amd64`
+	-- Example 1: Simple binary download
+	-- local url = `https://github.com/<GITHUB_USER>/<GITHUB_REPO>/releases/download/v{version}/<TOOL>-linux-amd64`
 
-    -- Example 2: Platform-specific binary
-    -- local platform = get_platform() -- Uncomment the helper function below
-    -- local url = `https://github.com/<GITHUB_USER>/<GITHUB_REPO>/releases/download/v{version}/<TOOL>-{platform}`
+	-- Example 2: Platform-specific binary
+	-- local platform = get_platform() -- Uncomment the helper function below
+	-- local url = `https://github.com/<GITHUB_USER>/<GITHUB_REPO>/releases/download/v{version}/<TOOL>-{platform}`
 
-    -- Example 3: Archive (tar.gz, zip) - mise will extract automatically
-    -- local url = `https://github.com/<GITHUB_USER>/<GITHUB_REPO>/releases/download/v{version}/<TOOL>-{version}-linux-amd64.tar.gz`
+	-- Example 3: Archive (tar.gz, zip) - mise will extract automatically
+	-- local url = `https://github.com/<GITHUB_USER>/<GITHUB_REPO>/releases/download/v{version}/<TOOL>-{version}-linux-amd64.tar.gz`
 
-    -- Example 4: Raw file from repository
-    -- local url = `https://raw.githubusercontent.com/<GITHUB_USER>/<GITHUB_REPO>/{version}/bin/<TOOL>`
+	-- Example 4: Raw file from repository
+	-- local url = `https://raw.githubusercontent.com/<GITHUB_USER>/<GITHUB_REPO>/{version}/bin/<TOOL>`
 
-    -- Replace with your actual download URL pattern
-    local url = `https://example.com/<TOOL>/releases/download/{version}/<TOOL>`
+	-- Replace with your actual download URL pattern
+	local url = `https://example.com/<TOOL>/releases/download/{version}/<TOOL>`
 
-    -- Optional: Fetch checksum for verification
-    -- local sha256 = fetch_checksum(version) -- Implement if checksums are available
+	-- Optional: Fetch checksum for verification
+	-- local sha256 = fetch_checksum(version) -- Implement if checksums are available
 
-    return {
-        version = version,
-        url = url,
-        -- sha256 = sha256, -- Optional but recommended for security
-        note = `Downloading <TOOL> {version}`,
-        -- addition = { -- Optional: download additional components
-        --     {
-        --         name = "component",
-        --         url = "https://example.com/component.tar.gz"
-        --     }
-        -- }
-    }
+	return {
+		version = version,
+		url = url,
+		-- sha256 = sha256, -- Optional but recommended for security
+		note = `Downloading <TOOL> {version}`,
+		-- addition = { -- Optional: download additional components
+		--     {
+		--         name = "component",
+		--         url = "https://example.com/component.tar.gz"
+		--     }
+		-- }
+	}
 end
 
 -- Helper function for platform detection (uncomment and modify as needed)
