@@ -1,6 +1,6 @@
 {
     "languageMode": "strict",
-    "globals": ["PLUGIN", "RUNTIME", "OS_TYPE", "ARCH_TYPE"],
+    "globals": ["PLUGIN", "RUNTIME"],
     "lint": {
         "BuiltinGlobalWrite": false
     },
