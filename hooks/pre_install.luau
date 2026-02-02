@@ -1,58 +1,56 @@
---!strict
-local Types = require("@lib/types")
-
-local plugin = PLUGIN :: Types.PluginType
-
 --- Returns download information for a specific version
---- Documentation: https://mise.jdx.dev/dev-tools/backends/vfox.html
-function plugin:PreInstall(ctx: { version: string, runtimeVersion: string }): Types.PreInstallResult
-	local version: string = ctx.version
-	-- ctx.runtimeVersion contains the full version string if needed
+--- Documentation: https://mise.jdx.dev/tool-plugin-development.html#preinstall-hook
+--- @param ctx {version: string, runtimeVersion: string} Context
+--- @return table Version and download information
+function PLUGIN:PreInstall(ctx): { version: string, url: string, sha256: string?, note: string? }
+    local version: string = ctx.version
+    -- ctx.runtimeVersion contains the full version string if needed
 
-	-- Example 1: Simple binary download
-	-- local url = `https://github.com/<GITHUB_USER>/<GITHUB_REPO>/releases/download/v{version}/<TOOL>-linux-amd64`
+    -- Example 1: Simple binary download
+    -- local url = `https://github.com/<GITHUB_USER>/<GITHUB_REPO>/releases/download/v{version}/<TOOL>-linux-amd64`
 
-	-- Example 2: Platform-specific binary
-	-- local platform = get_platform() -- Uncomment the helper function below
-	-- local url = `https://github.com/<GITHUB_USER>/<GITHUB_REPO>/releases/download/v{version}/<TOOL>-{platform}`
+    -- Example 2: Platform-specific binary
+    -- local platform = get_platform() -- Uncomment the helper function below
+    -- local url = `https://github.com/<GITHUB_USER>/<GITHUB_REPO>/releases/download/v{version}/<TOOL>-{platform}`
 
-	-- Example 3: Archive (tar.gz, zip) - mise will extract automatically
-	-- local url = `https://github.com/<GITHUB_USER>/<GITHUB_REPO>/releases/download/v{version}/<TOOL>-{version}-linux-amd64.tar.gz`
+    -- Example 3: Archive (tar.gz, zip) - mise will extract automatically
+    -- local url = `https://github.com/<GITHUB_USER>/<GITHUB_REPO>/releases/download/v{version}/<TOOL>-{version}-linux-amd64.tar.gz`
 
-	-- Example 4: Raw file from repository
-	-- local url = `https://raw.githubusercontent.com/<GITHUB_USER>/<GITHUB_REPO>/{version}/bin/<TOOL>`
+    -- Example 4: Raw file from repository
+    -- local url = `https://raw.githubusercontent.com/<GITHUB_USER>/<GITHUB_REPO>/{version}/bin/<TOOL>`
 
-	-- Replace with your actual download URL pattern
-	local url = `https://example.com/<TOOL>/releases/download/{version}/<TOOL>`
+    -- Replace with your actual download URL pattern
+    local url = `https://example.com/<TOOL>/releases/download/{version}/<TOOL>`
 
-	-- Optional: Fetch checksum for verification
-	-- local sha256 = fetch_checksum(version) -- Implement if checksums are available
+    -- Optional: Fetch checksum for verification
+    -- local sha256 = fetch_checksum(version) -- Implement if checksums are available
 
-	return {
-		version = version,
-		url = url,
-		-- sha256 = sha256, -- Optional but recommended for security
-		note = `Downloading <TOOL> {version}`,
-		-- addition = { -- Optional: download additional components
-		--     {
-		--         name = "component",
-		--         url = "https://example.com/component.tar.gz"
-		--     }
-		-- }
-	}
+    return {
+        version = version,
+        url = url,
+        -- sha256 = sha256, -- Optional but recommended for security
+        note = `Downloading <TOOL> {version}`,
+        -- addition = { -- Optional: download additional components
+        --     {
+        --         name = "component",
+        --         url = "https://example.com/component.tar.gz"
+        --     }
+        -- }
+    }
 end
 
 -- Helper function for platform detection (uncomment and modify as needed)
 --[[
 local function get_platform(): string
-    local runtime = RUNTIME :: Types.RuntimeType
-    -- runtime.osType: "Windows", "Linux", "Darwin"
-    -- runtime.archType: "amd64", "386", "arm64", etc.
+    -- RUNTIME object is provided by mise/vfox
+    -- RUNTIME.osType: "Windows", "Linux", "Darwin"
+    -- RUNTIME.archType: "amd64", "386", "arm64", etc.
 
-    local os_name: string = runtime.osType:lower()
-    local arch: string = runtime.archType
+    local os_name: string = RUNTIME.osType:lower()
+    local arch: string = RUNTIME.archType
 
     -- Map to your tool's platform naming convention
+    -- Adjust these mappings based on how your tool names its releases
     local platform_map = {
         ["darwin"] = {
             ["amd64"] = "darwin-amd64",
@@ -71,9 +69,10 @@ local function get_platform(): string
 
     local os_map = platform_map[os_name]
     if os_map then
-        return os_map[arch] or "linux-amd64"
+        return os_map[arch] or "linux-amd64"  -- fallback
     end
 
+    -- Default fallback
     return "linux-amd64"
 end
 --]]

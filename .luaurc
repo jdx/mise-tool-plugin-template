@@ -1,10 +1,7 @@
 {
-    "languageMode": "strict",
-    "globals": ["PLUGIN", "RUNTIME", "OS_TYPE", "ARCH_TYPE"],
+    "languageMode": "nonstrict",
+    "globals": ["PLUGIN", "RUNTIME"],
     "lint": {
         "BuiltinGlobalWrite": false
-    },
-    "aliases": {
-        "lib": "./lib"
     }
 }
