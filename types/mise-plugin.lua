@@ -121,7 +121,13 @@ ARCH_TYPE = ""
 
 ---@class Plugin
 ---@field name string Plugin name
----@field depends? string[] From metadata.lua: other mise tools (names as in mise.toml) required on PATH during install hooks
+---@field version string Plugin manifest version
+---@field description? string
+---@field author? string
+---@field license? string
+---@field homepage? string
+---@field legacyFilenames? string[]
+---@field depends? string[] Other mise tools (names as in mise.toml) required on PATH during install hooks
 ---@field Available? fun(self: Plugin, ctx: AvailableCtx): AvailableVersion[]
 ---@field PreInstall? fun(self: Plugin, ctx: PreInstallCtx): PreInstallResult
 ---@field PostInstall? fun(self: Plugin, ctx: PostInstallCtx)

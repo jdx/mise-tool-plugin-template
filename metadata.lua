@@ -15,19 +15,12 @@ PLUGIN = { -- luacheck: ignore
     -- Required: Plugin author/maintainer
     author = "<GITHUB_USER>",
 
-    -- Optional: Repository URL for plugin updates
-    updateUrl = "https://github.com/<GITHUB_USER>/mise-<TOOL>",
+    -- Optional: SPDX license id or name
+    license = "MIT",
 
-    -- Optional: Minimum mise runtime version required
-    minRuntimeVersion = "0.2.0",
+    -- Optional: Project or plugin home page
+    homepage = "https://github.com/<GITHUB_USER>/mise-<TOOL>",
 
-    -- Optional: Other mise-managed tools that must install first and be on PATH
-    -- while running install hooks (Lua `cmd`, etc.). Use the same tool names as in
-    -- mise.toml ("node", "go", …). mise uses these for install scheduling and hook-time `PATH`;
-    -- they are not the same as
-    -- `depends` on a `[tools]` entry in mise.toml (that only orders installs among
-    -- tools you already list in config).
-    -- See https://mise.jdx.dev/tool-plugin-development.html#_2-metadata-lua
     -- depends = { "node" },
 
     -- Optional: Legacy version files this plugin can parse

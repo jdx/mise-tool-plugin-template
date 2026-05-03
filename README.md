@@ -28,7 +28,7 @@ Search and replace these placeholders throughout the project:
 - `<GITHUB_REPO>` → the upstream tool's GitHub repository name
 
 Files to update:
-- `metadata.lua` - Update name, description, author, updateUrl (and optional `depends` if hooks need other mise tools on `PATH` during install)
+- `metadata.lua` - Update name, version, description, author, license, homepage (and optional `depends` / `legacyFilenames` if needed)
 - `hooks/*.lua` - Replace placeholders in all hook files
 - `mise-tasks/test` - Update test version and command
 - `README.md` - Update this file with your tool's information
