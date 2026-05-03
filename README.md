@@ -172,7 +172,7 @@ See [Tool plugin development — metadata.lua](https://mise.jdx.dev/tool-plugin-
 
 ## Files
 
-- `metadata.lua` – Plugin metadata and configuration (optional `depends` for hook-time `PATH`)
+- `metadata.lua` – Plugin metadata and configuration
 - `hooks/available.lua` – Returns available versions from upstream
 - `hooks/pre_install.lua` – Returns artifact URL for a given version
 - `hooks/post_install.lua` – Post-installation setup (permissions, moving files)
