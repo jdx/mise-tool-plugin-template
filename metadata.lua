@@ -9,16 +9,16 @@ PLUGIN = { -- luacheck: ignore
     -- Required: Plugin metadata version
     version = "1.0.0",
 
-    -- Required: Brief description of the tool
+    -- Optional: Plugin description
     description = "A mise tool plugin for <TOOL>",
 
-    -- Required: Plugin author/maintainer
+    -- Optional: Plugin author
     author = "<GITHUB_USER>",
 
-    -- Optional: SPDX license id or name
+    -- Optional: License name
     license = "MIT",
 
-    -- Optional: Project or plugin home page
+    -- Optional: Plugin homepage
     homepage = "https://github.com/<GITHUB_USER>/mise-<TOOL>",
 
     -- Optional: Legacy version files this plugin can parse
