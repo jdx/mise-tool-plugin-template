@@ -28,7 +28,7 @@ Search and replace these placeholders throughout the project:
 - `<GITHUB_REPO>` → the upstream tool's GitHub repository name
 
 Files to update:
-- `metadata.lua` - Update name, version, description, author, license, homepage (and optional `legacyFilenames` / commented `depends` if needed)
+- `metadata.lua` - Update name, version, description, author, license, homepage, and optional metadata
 - `hooks/*.lua` - Replace placeholders in all hook files
 - `mise-tasks/test` - Update test version and command
 - `README.md` - Update this file with your tool's information
@@ -166,7 +166,9 @@ MISE_DEBUG=1 mise install <TOOL>@latest
 
 ## Install-time tool dependencies
 
-If install hooks run another mise-managed executable (for example `cmd.exec` calling `go` or `node`), list those tools in **`metadata.lua`** as `depends = { "go", ... }` using the **same tool names as in `mise.toml`**. mise installs them first and exposes them on `PATH` in the dependency environment used during your plugin’s install. This is separate from `depends` on a `[tools]` line in `mise.toml`, which only affects install order among tools already in your config.
+If install hooks run another mise-managed executable (for example `cmd.exec` calling `go` or `node`), list those tools in **`metadata.lua`** as `depends = { "go", ... }` using the same tool names as in `mise.toml`.
+
+When matching tools are configured, mise uses those entries to order current install jobs and to build the hook `PATH`. This is separate from `depends` on a `[tools]` line in `mise.toml`, which only affects install order for that config entry.
 
 See [Tool plugin development — metadata.lua](https://mise.jdx.dev/tool-plugin-development.html#_2-metadata-lua).
 

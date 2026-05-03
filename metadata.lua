@@ -27,6 +27,6 @@ PLUGIN = { -- luacheck: ignore
     --     ".<TOOL>rc"
     -- },
 
-    -- Optional: mise tools on PATH during install hooks (names as in mise.toml)
+    -- Optional: configured mise tools to add to install-hook PATH
     -- depends = { "node" },
 }

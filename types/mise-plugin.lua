@@ -128,7 +128,7 @@ ARCH_TYPE = ""
 ---@field license? string SPDX id or license name (e.g. `MIT`)
 ---@field homepage? string Project or repository URL
 ---@field legacyFilenames? string[] Basenames of version files `ParseLegacyFile` can read (camelCase key: `legacyFilenames`)
----@field depends? string[] Other mise tools that must install first and appear on PATH during install hooks
+---@field depends? string[] Configured mise tools whose bin paths should be available during install hooks
 ---@field Available? fun(self: Plugin, ctx: AvailableCtx): AvailableVersion[]
 ---@field PreInstall? fun(self: Plugin, ctx: PreInstallCtx): PreInstallResult
 ---@field PostInstall? fun(self: Plugin, ctx: PostInstallCtx)
