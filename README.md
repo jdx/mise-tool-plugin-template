@@ -250,7 +250,6 @@ Refer to the mise docs for detailed information:
 2. Create a GitHub repository for your plugin
 3. Push your code
 4. (Optional) Request to transfer to [mise-plugins](https://github.com/mise-plugins) organization
-5. Add to the [mise registry](https://github.com/jdx/mise/blob/main/registry.toml) via PR
 
 ## License
 
