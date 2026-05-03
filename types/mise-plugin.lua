@@ -9,6 +9,7 @@
 ---@class Runtime
 ---@field osType string Operating system type (e.g. "linux", "darwin", "windows")
 ---@field archType string Architecture type (e.g. "amd64", "arm64")
+---@field envType? string Runtime environment type
 ---@field version string Runtime version
 ---@field pluginDirPath string Path to the plugin directory
 RUNTIME = {}
@@ -32,7 +33,8 @@ ARCH_TYPE = ""
 ---@field checksum? string Checksum for detecting changes in rolling releases
 
 ---@class AvailableCtx
----@field args string[] Command-line arguments
+---@field args string[]
+---@field version? string
 
 ---@class PreInstallResult
 ---@field version string Version string
@@ -54,7 +56,7 @@ ARCH_TYPE = ""
 ---@field slsa_min_level? integer Minimum SLSA level
 
 ---@class PreInstallCtx
----@field args string[] Command-line arguments
+---@field args string[]
 ---@field version string Requested version
 
 ---@class PostInstallCtx
@@ -63,9 +65,9 @@ ARCH_TYPE = ""
 ---@field sdkInfo table<string, SdkInfo> SDK info for installed versions
 
 ---@class SdkInfo
+---@field name string SDK name
 ---@field path string Installation path
 ---@field version string Installed version
----@field note? string Optional note
 
 ---@class EnvKey
 ---@field key string Environment variable name
@@ -89,17 +91,21 @@ ARCH_TYPE = ""
 
 ---@class MiseEnvCtx
 ---@field options table Plugin options from mise.toml
+---@field config_root? string Configuration root path
 
 ---@class MiseEnvResult
 ---@field env? EnvKey[] Environment variables to set
 ---@field cacheable? boolean Whether the result can be cached (default false)
 ---@field watch_files? string[] Files to watch for cache invalidation
+---@field redact? boolean Whether env var values should be redacted
 
 ---@class MisePathCtx
 ---@field options table Plugin options from mise.toml
+---@field config_root? string Configuration root path
 
 ---@class BackendListVersionsCtx
 ---@field tool string Tool name
+---@field options table Plugin options from mise.toml
 
 ---@class BackendListVersionsResult
 ---@field versions string[] List of available versions
@@ -108,6 +114,8 @@ ARCH_TYPE = ""
 ---@field tool string Tool name
 ---@field version string Version to install
 ---@field install_path string Path where the tool should be installed
+---@field download_path string Download cache path
+---@field options table Plugin options from mise.toml
 
 ---@class BackendInstallResult
 
@@ -115,12 +123,21 @@ ARCH_TYPE = ""
 ---@field tool string Tool name
 ---@field version string Installed version
 ---@field install_path string Installation path
+---@field options table Plugin options from mise.toml
 
 ---@class BackendExecEnvResult
 ---@field env_vars EnvKey[] Environment variables to set
 
 ---@class Plugin
----@field name string Plugin name
+--- Keys for `metadata.lua` (mise loads these via vfox `Metadata`). Hook methods are separate optional entries on the same table.
+---@field name string Plugin metadata name
+---@field version string Plugin metadata version
+---@field description? string Plugin description
+---@field author? string Plugin author
+---@field license? string License name
+---@field homepage? string Plugin homepage
+---@field legacyFilenames? string[] Legacy version filenames
+---@field depends? string[] Configured mise tools whose bin paths should be available during install hooks
 ---@field Available? fun(self: Plugin, ctx: AvailableCtx): AvailableVersion[]
 ---@field PreInstall? fun(self: Plugin, ctx: PreInstallCtx): PreInstallResult
 ---@field PostInstall? fun(self: Plugin, ctx: PostInstallCtx)
