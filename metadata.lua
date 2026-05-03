@@ -21,12 +21,12 @@ PLUGIN = { -- luacheck: ignore
     -- Optional: Project or plugin home page
     homepage = "https://github.com/<GITHUB_USER>/mise-<TOOL>",
 
-    -- Optional: mise tools needed on PATH during install hooks (names as in mise.toml)
-    depends = {},
-
     -- Optional: Legacy version files this plugin can parse
     -- legacyFilenames = {
     --     ".<TOOL>-version",
     --     ".<TOOL>rc"
-    -- }
+    -- },
+
+    -- Optional: mise tools on PATH during install hooks (names as in mise.toml)
+    -- depends = { "node" },
 }

@@ -120,14 +120,15 @@ ARCH_TYPE = ""
 ---@field env_vars EnvKey[] Environment variables to set
 
 ---@class Plugin
----@field name string Plugin name
----@field version string Plugin manifest version
----@field description? string
----@field author? string
----@field license? string
----@field homepage? string
----@field legacyFilenames? string[]
----@field depends? string[] Other mise tools (names as in mise.toml) required on PATH during install hooks
+--- Keys for `metadata.lua` (mise loads these via vfox `Metadata`). Hook methods are separate optional entries on the same table.
+---@field name string Tool id this plugin manages (lowercase, e.g. `nodejs`)
+---@field version string Plugin/package version string — not the installed tool SDK version
+---@field description? string Human-readable description of the plugin or tool
+---@field author? string Maintainer or author name
+---@field license? string SPDX id or license name (e.g. `MIT`)
+---@field homepage? string Project or repository URL
+---@field legacyFilenames? string[] Basenames of version files `ParseLegacyFile` can read (camelCase key: `legacyFilenames`)
+---@field depends? string[] Other mise tools that must install first and appear on PATH during install hooks
 ---@field Available? fun(self: Plugin, ctx: AvailableCtx): AvailableVersion[]
 ---@field PreInstall? fun(self: Plugin, ctx: PreInstallCtx): PreInstallResult
 ---@field PostInstall? fun(self: Plugin, ctx: PostInstallCtx)
