@@ -3,10 +3,10 @@
 -- Documentation: https://mise.jdx.dev/tool-plugin-development.html#metadata-lua
 
 PLUGIN = { -- luacheck: ignore
-    -- Required: Tool name (lowercase, no spaces)
+    -- Required: Plugin metadata name
     name = "<TOOL>",
 
-    -- Required: Plugin version (not the tool version)
+    -- Required: Plugin metadata version
     version = "1.0.0",
 
     -- Required: Brief description of the tool

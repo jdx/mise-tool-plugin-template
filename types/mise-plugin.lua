@@ -121,8 +121,8 @@ ARCH_TYPE = ""
 
 ---@class Plugin
 --- Keys for `metadata.lua` (mise loads these via vfox `Metadata`). Hook methods are separate optional entries on the same table.
----@field name string Tool id this plugin manages (lowercase, e.g. `nodejs`)
----@field version string Plugin/package version string — not the installed tool SDK version
+---@field name string Plugin metadata name
+---@field version string Plugin metadata version
 ---@field description? string Human-readable description of the plugin or tool
 ---@field author? string Maintainer or author name
 ---@field license? string SPDX id or license name (e.g. `MIT`)
