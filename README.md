@@ -166,7 +166,7 @@ MISE_DEBUG=1 mise install <TOOL>@latest
 
 ## Install-time tool dependencies
 
-If install hooks run another mise-managed executable (for example `cmd.exec` calling `go` or `node`), list those tools in **`metadata.lua`** as `depends = { "go", ... }` using their **short names**. mise installs them first and exposes them on `PATH` in the dependency environment used during your plugin’s install. This is separate from `depends` on a `[tools]` line in `mise.toml`, which only affects install order among tools already in your config.
+If install hooks run another mise-managed executable (for example `cmd.exec` calling `go` or `node`), list those tools in **`metadata.lua`** as `depends = { "go", ... }` using the **same tool names as in `mise.toml`**. mise installs them first and exposes them on `PATH` in the dependency environment used during your plugin’s install. This is separate from `depends` on a `[tools]` line in `mise.toml`, which only affects install order among tools already in your config.
 
 See [Tool plugin development — metadata.lua](https://mise.jdx.dev/tool-plugin-development.html#_2-metadata-lua).
 
