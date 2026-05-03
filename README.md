@@ -249,7 +249,6 @@ Refer to the mise docs for detailed information:
 1. Ensure all tests pass: `mise run ci`
 2. Create a GitHub repository for your plugin
 3. Push your code
-4. (Optional) Request to transfer to [mise-plugins](https://github.com/mise-plugins) organization
 
 ## License
 
