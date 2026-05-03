@@ -23,7 +23,8 @@ PLUGIN = { -- luacheck: ignore
 
     -- Optional: Other mise-managed tools that must install first and be on PATH
     -- while running install hooks (Lua `cmd`, etc.). Use the same tool names as in
-    -- mise.toml ("node", "go", …). This feeds mise's dependency environment; it is not the same as
+    -- mise.toml ("node", "go", …). mise uses these for install scheduling and hook-time `PATH`;
+    -- they are not the same as
     -- `depends` on a `[tools]` entry in mise.toml (that only orders installs among
     -- tools you already list in config).
     -- See https://mise.jdx.dev/tool-plugin-development.html#_2-metadata-lua
