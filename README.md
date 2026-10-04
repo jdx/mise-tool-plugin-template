@@ -113,6 +113,10 @@ return {
 
 ### Setting up development environment
 
+The template pins the LuaRocks used while provisioning Lua to 3.12.2. This is
+temporary: remove `ASDF_LUA_LUAROCKS_VERSION` from `mise.toml` after LuaRocks
+publishes a release that replaces the broken 3.13.0 official source tarball.
+
 1. Install pre-commit hooks (optional but recommended):
 ```bash
 hk install

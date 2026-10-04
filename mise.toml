@@ -1,5 +1,8 @@
 [env]
 MISE_USE_VERSIONS_HOST = "0"
+# Temporary workaround for LuaRocks 3.13.0's broken official source tarball.
+# Remove after luarocks/luarocks publishes a fixed release.
+ASDF_LUA_LUAROCKS_VERSION = "3.12.2"
 
 [tools]
 actionlint = "latest"
