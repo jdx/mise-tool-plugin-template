@@ -9,7 +9,7 @@
 ---@class Runtime
 ---@field osType string Operating system type (e.g. "linux", "darwin", "windows")
 ---@field archType string Architecture type (e.g. "amd64", "arm64")
----@field envType? string Runtime environment type
+---@field envType string|nil libc environment type ("gnu" on glibc Linux, "musl" on musl Linux, nil on other platforms)
 ---@field version string Runtime version
 ---@field pluginDirPath string Path to the plugin directory
 RUNTIME = {}
@@ -128,6 +128,15 @@ ARCH_TYPE = ""
 ---@class BackendExecEnvResult
 ---@field env_vars EnvKey[] Environment variables to set
 
+---@class SystemDependency
+---@field bin? string Executable that must be on PATH
+---@field pkgconfig? string pkg-config module that must be available
+---@field sharedlib? string Shared library that must be available
+---@field command? string Command that must exit successfully
+---@field version? string Version requirement
+---@field optional? string Marks the dependency as optional
+---@field packages? table<string, string|string[]> Package names by package manager (brew, apt, dnf, pacman, apk), used as install hints
+
 ---@class Plugin
 --- Keys for `metadata.lua` (mise loads these via vfox `Metadata`). Hook methods are separate optional entries on the same table.
 ---@field name string Plugin metadata name
@@ -138,6 +147,7 @@ ARCH_TYPE = ""
 ---@field homepage? string Plugin homepage
 ---@field legacyFilenames? string[] Legacy version filenames
 ---@field depends? string[] Configured mise tools whose bin paths should be available during install hooks
+---@field systemDependencies? SystemDependency[] System prerequisites (set exactly one of bin, pkgconfig, sharedlib, command per entry)
 ---@field Available? fun(self: Plugin, ctx: AvailableCtx): AvailableVersion[]
 ---@field PreInstall? fun(self: Plugin, ctx: PreInstallCtx): PreInstallResult
 ---@field PostInstall? fun(self: Plugin, ctx: PostInstallCtx)
