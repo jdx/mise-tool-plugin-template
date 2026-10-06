@@ -63,6 +63,74 @@ local url = "https://github.com/owner/repo/releases/download/v" .. version .. "/
 local url = "https://raw.githubusercontent.com/owner/repo/" .. version .. "/bin/tool"
 ```
 
+### Private GitHub repositories
+
+The plugin repository and the tool's release repository use different authentication paths. Keep credentials outside the plugin source and configuration committed to Git.
+
+#### Private plugin repository
+
+Install a private plugin with the user's normal Git authentication. SSH is a simple option:
+
+```bash
+mise plugin install <TOOL> git@github.com:example-org/private-tool-plugin.git
+```
+
+An HTTPS URL also works when Git has a credential helper configured:
+
+```bash
+mise plugin install <TOOL> https://github.com/example-org/private-tool-plugin.git
+```
+
+Do not add a token to either URL. It can be retained in shell history, configuration, process arguments, or the Git remote. Verify repository access independently with `git ls-remote <repository-url>` if installation fails.
+
+#### Private tool version discovery
+
+For a private tool repository, use the GitHub REST API URL in `hooks/available.lua`. mise's vfox HTTP module resolves the configured GitHub token and adds it to requests for `api.github.com`; the plugin should not access the token or add its own authorization header.
+
+```lua
+local http = require("http")
+local json = require("json")
+
+function PLUGIN:Available(ctx)
+    local versions = {}
+    local repo_url = "https://api.github.com/repos/example-org/private-tool/releases"
+
+    while repo_url ~= nil do
+        local resp, err = http.get({ url = repo_url })
+        if err ~= nil then
+            error("Failed to fetch releases: " .. err)
+        end
+        if resp.status_code ~= 200 then
+            error("GitHub API returned status " .. resp.status_code)
+        end
+
+        for _, release in ipairs(json.decode(resp.body)) do
+            table.insert(versions, {
+                version = release.tag_name:gsub("^v", ""),
+            })
+        end
+
+        repo_url = resp.headers["link"] and resp.headers["link"]:match('<([^>]+)>;%s*rel="next"')
+    end
+    return versions
+end
+```
+
+Configure repository access through one of mise's [GitHub token sources](https://mise.jdx.dev/dev-tools/github-tokens.html), such as a GitHub CLI token, a secret manager-backed credential command, or a CI secret. For a fine-grained token, grant the private repository `Contents: read`. Use `mise token github` to check the selected source; it masks the token value.
+
+#### Private release assets
+
+Do not reuse the public `https://github.com/.../releases/download/...` or `raw.githubusercontent.com` examples for private artifacts. vfox adds mise's GitHub token only to GitHub API requests, and this template's `PreInstall` hook returns a URL but has no supported header field for an authenticated asset download.
+
+For a private repository that uses conventional GitHub releases, prefer mise's built-in `github:` backend, which supports private releases with the same GitHub token configuration:
+
+```toml
+[tools]
+"github:example-org/private-tool" = "1.2.3"
+```
+
+If the tool needs custom private-asset installation beyond that backend, this template does not currently provide a complete supported implementation; use a backend plugin or add the required mise support before publishing an example.
+
 #### `hooks/post_install.lua`
 Handles post-installation setup:
 
