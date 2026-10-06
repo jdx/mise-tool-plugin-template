@@ -3,27 +3,30 @@
 -- Documentation: https://mise.jdx.dev/tool-plugin-development.html#metadata-lua
 
 PLUGIN = { -- luacheck: ignore
-    -- Required: Tool name (lowercase, no spaces)
+    -- Required: Plugin metadata name
     name = "<TOOL>",
 
-    -- Required: Plugin version (not the tool version)
+    -- Required: Plugin metadata version
     version = "1.0.0",
 
-    -- Required: Brief description of the tool
+    -- Optional: Plugin description
     description = "A mise tool plugin for <TOOL>",
 
-    -- Required: Plugin author/maintainer
+    -- Optional: Plugin author
     author = "<GITHUB_USER>",
 
-    -- Optional: Repository URL for plugin updates
-    updateUrl = "https://github.com/<GITHUB_USER>/mise-<TOOL>",
+    -- Optional: License name
+    license = "MIT",
 
-    -- Optional: Minimum mise runtime version required
-    minRuntimeVersion = "0.2.0",
+    -- Optional: Plugin homepage
+    homepage = "https://github.com/<GITHUB_USER>/mise-<TOOL>",
 
     -- Optional: Legacy version files this plugin can parse
     -- legacyFilenames = {
     --     ".<TOOL>-version",
     --     ".<TOOL>rc"
-    -- }
+    -- },
+
+    -- Optional: configured mise tools to add to install-hook PATH
+    -- depends = { "node" },
 }
