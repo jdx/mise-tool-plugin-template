@@ -92,21 +92,25 @@ local http = require("http")
 local json = require("json")
 
 function PLUGIN:Available(ctx)
-    local resp, err = http.get({
-        url = "https://api.github.com/repos/example-org/private-tool/releases",
-    })
-    if err ~= nil then
-        error("Failed to fetch releases: " .. err)
-    end
-    if resp.status_code ~= 200 then
-        error("GitHub API returned status " .. resp.status_code)
-    end
-
     local versions = {}
-    for _, release in ipairs(json.decode(resp.body)) do
-        table.insert(versions, {
-            version = release.tag_name:gsub("^v", ""),
-        })
+    local repo_url = "https://api.github.com/repos/example-org/private-tool/releases"
+
+    while repo_url ~= nil do
+        local resp, err = http.get({ url = repo_url })
+        if err ~= nil then
+            error("Failed to fetch releases: " .. err)
+        end
+        if resp.status_code ~= 200 then
+            error("GitHub API returned status " .. resp.status_code)
+        end
+
+        for _, release in ipairs(json.decode(resp.body)) do
+            table.insert(versions, {
+                version = release.tag_name:gsub("^v", ""),
+            })
+        end
+
+        repo_url = resp.headers["link"] and resp.headers["link"]:match('<([^>]+)>;%s*rel="next"')
     end
     return versions
 end
